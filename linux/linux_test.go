@@ -32,3 +32,20 @@ func TestStopALLContainers(t *testing.T) {
 	}
 
 }
+
+func TestStopSingleContainer(t *testing.T) {
+	_, err := StopSingleContainer("463631feb379")
+
+	if err != nil {
+		t.Errorf(err.Error())
+	}
+}
+
+func TestBuildDockerFile(t *testing.T) {
+	var path string = "/home/princewillo/code/Personal/Docker/Test/Dockerfile"
+	_, err := BuildDockerFile(NewContainer(path, "test", "v1"))
+
+	if err != nil {
+		t.Errorf(err.Error())
+	}
+}
