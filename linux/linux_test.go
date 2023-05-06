@@ -19,3 +19,16 @@ func TestGetAllContainerIDs(t *testing.T) {
 		t.Errorf(err.Error())
 	}
 }
+
+func TestStopALLContainers(t *testing.T) {
+	ids, err := GetAllContainerIDs()
+	if err != nil {
+		t.Errorf(err.Error())
+	}
+	_, err = StopAllContainers(ids)
+
+	if err != nil {
+		t.Errorf(err.Error())
+	}
+
+}
