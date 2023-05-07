@@ -49,3 +49,17 @@ func TestBuildDockerFile(t *testing.T) {
 		t.Errorf(err.Error())
 	}
 }
+
+func TestRunContainer(t *testing.T) {
+	params := map[string]string{
+		"name":     "test",
+		"tag":      "v1",
+		"in_port":  "8000",
+		"out_port": "8000",
+	}
+	_, err := RunContainer(params)
+
+	if err != nil {
+		t.Errorf(err.Error())
+	}
+}

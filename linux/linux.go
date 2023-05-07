@@ -15,7 +15,7 @@ type Container struct {
 
 type Option func(f *Container)
 
-func WithCounty(volume string) Option {
+func WithVolume(volume string) Option {
 	return func(f *Container) {
 		f.Volume = volume
 	}
@@ -98,6 +98,31 @@ func BuildDockerFile(build *Container) (msg string, err error) {
 		return
 	}
 	cmd := exec.Command("docker", "build", "-t", name_tag, path)
+	var out bytes.Buffer
+	cmd.Stdout = &out
+
+	err = cmd.Run()
+
+	if err != nil {
+		return
+	}
+	return out.String(), nil
+}
+
+func RunContainer(params map[string]string) (msg string, err error) {
+	var name_tag string = params["name"] + ":" + params["tag"]
+	commands := []string{}
+
+	switch {
+	case params["out_port"] != "":
+		var port_param string = params["out_port"] + ":" + params["in_port"]
+		commands = append(commands, "run", "-p", port_param)
+		fallthrough
+	default:
+		commands = append(commands, name_tag)
+	}
+
+	cmd := exec.Command("docker", commands...)
 	var out bytes.Buffer
 	cmd.Stdout = &out
 
